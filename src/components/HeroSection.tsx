@@ -1,6 +1,7 @@
 import { TaglineRotator } from "./TaglineRotator";
 import { FeatureCard } from "./FeatureCard";
 import { LiquidButton } from "./LiquidButton";
+import { GridScan } from "./GridScan";
 
 const features = [
   {
@@ -52,6 +53,21 @@ export const HeroSection = () => {
       <div className="absolute inset-0 bg-abyss" />
       <div className="absolute inset-0 bg-liquid-flow" />
       <div className="god-rays" />
+      
+      {/* Grid Scan Effect */}
+      <GridScan
+        linesColor="#3d1a1a"
+        scanColor="#b91c1c"
+        scanOpacity={0.5}
+        gridScale={0.12}
+        lineThickness={0.8}
+        scanGlow={0.7}
+        scanDuration={3}
+        scanDelay={2}
+        bloomIntensity={0.4}
+        chromaticAberration={0.003}
+        noiseIntensity={0.015}
+      />
       
       {/* Noise texture */}
       <div className="noise-overlay" />

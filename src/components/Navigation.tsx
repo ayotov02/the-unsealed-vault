@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 const navItems = [
-  { label: "Home", href: "#" },
-  { label: "Features", href: "#features" },
+  { label: "Home", href: "/" },
+  { label: "Features", href: "/#features" },
+  { label: "Pricing", href: "/pricing" },
   { label: "Docs", href: "#docs" },
   { label: "Community", href: "#community" },
   { label: "Login", href: "#login" },
@@ -17,31 +19,38 @@ export const Navigation = () => {
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <a href="#" className="flex items-center gap-3 group">
+            <Link to="/" className="flex items-center gap-3 group">
               <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-glow-blood flex items-center justify-center pulse-glow">
                 <span className="font-display font-bold text-lg text-primary-foreground">E</span>
               </div>
               <span className="font-display text-xl font-semibold tracking-wide text-foreground group-hover:text-gradient-crimson transition-colors">
                 EpsteinGPT
               </span>
-            </a>
+            </Link>
 
             {/* Nav Links */}
             <div className="hidden md:flex items-center gap-1">
-              {navItems.map((item, index) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  className="relative px-4 py-2 font-mono text-sm text-muted-foreground hover:text-foreground transition-colors"
-                  onMouseEnter={() => setIsHovered(index)}
-                  onMouseLeave={() => setIsHovered(null)}
-                >
-                  {item.label}
-                  {isHovered === index && (
-                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-primary animate-pulse" />
-                  )}
-                </a>
-              ))}
+              {navItems.map((item, index) => {
+                const isExternal = item.href.startsWith("#");
+                const isHashLink = item.href.startsWith("/#");
+                const Component = isExternal || isHashLink ? "a" : Link;
+                const linkProps = isExternal || isHashLink ? { href: item.href } : { to: item.href };
+                
+                return (
+                  <Component
+                    key={item.label}
+                    {...linkProps as any}
+                    className="relative px-4 py-2 font-mono text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    onMouseEnter={() => setIsHovered(index)}
+                    onMouseLeave={() => setIsHovered(null)}
+                  >
+                    {item.label}
+                    {isHovered === index && (
+                      <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-primary animate-pulse" />
+                    )}
+                  </Component>
+                );
+              })}
             </div>
 
             {/* CTA */}

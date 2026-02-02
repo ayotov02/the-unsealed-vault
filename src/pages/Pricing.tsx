@@ -6,7 +6,6 @@ import { PricingFAQ } from "@/components/PricingFAQ";
 import { FloatingStatOrb } from "@/components/FloatingStatOrb";
 import { LiquidButton } from "@/components/LiquidButton";
 import { AgeGateModal } from "@/components/AgeGateModal";
-import { Antigravity } from "@/components/Antigravity";
 import { Lock, Building2 } from "lucide-react";
 
 const observerFeatures = [
@@ -52,26 +51,6 @@ const Pricing = () => {
 
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 overflow-hidden">
-        {/* Antigravity Background */}
-        <div className="absolute inset-0 z-0">
-          <Antigravity
-            count={400}
-            magnetRadius={15}
-            ringRadius={12}
-            waveSpeed={0.3}
-            waveAmplitude={1.2}
-            particleSize={2.5}
-            lerpSpeed={0.08}
-            color="#b91c1c"
-            autoAnimate={true}
-            particleVariance={1.2}
-            rotationSpeed={0.1}
-            depthFactor={1.5}
-            pulseSpeed={2}
-            particleShape="capsule"
-            fieldStrength={12}
-          />
-        </div>
         
         {/* Background layers */}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/30 to-background pointer-events-none z-[1]" />

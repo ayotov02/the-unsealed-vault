@@ -1,0 +1,79 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Waitlist {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  selectedTier String
+  referralCode String   @unique @default(cuid())
+  referredBy   String?
+  position     Int      @default(autoincrement())
+  earlyAccess  Boolean  @default(false)
+  createdAt    DateTime @default(now())
+}
+
+model User {
+  id               String   @id @default(cuid())
+  clerkId          String   @unique
+  email            String   @unique
+  stripeCustomerId String?  @unique
+  tier             String   @default("observer")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  subscription   Subscription?
+  creditBalance  CreditBalance?
+  transactions   CreditTransaction[]
+}
+
+model Subscription {
+  id                   String   @id @default(cuid())
+  userId               String   @unique
+  user                 User     @relation(fields: [userId], references: [id])
+  stripeSubscriptionId String   @unique
+  stripePriceId        String
+  status               String
+  currentPeriodStart   DateTime
+  currentPeriodEnd     DateTime
+  cancelAtPeriodEnd    Boolean  @default(false)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}
+
+model CreditBalance {
+  id                  String   @id @default(cuid())
+  userId              String   @unique
+  user                User     @relation(fields: [userId], references: [id])
+  subscriptionCredits Int      @default(0)
+  purchasedCredits    Int      @default(0)
+  resetDate           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
+
+model CreditTransaction {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  type         String
+  amount       Int
+  description  String
+  balanceAfter Int
+  source       String?
+  createdAt    DateTime @default(now())
+}
+
+model CreditPack {
+  id            String  @id @default(cuid())
+  name          String
+  credits       Int
+  priceInCents  Int
+  stripePriceId String  @unique
+  validityDays  Int     @default(90)
+  active        Boolean @default(true)
+}

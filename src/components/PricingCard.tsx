@@ -21,6 +21,7 @@ interface PricingCardProps {
   premium?: boolean;
   ctaText?: string;
   delay?: number;
+  onCtaClick?: () => void;
 }
 
 export const PricingCard = ({
@@ -36,6 +37,7 @@ export const PricingCard = ({
   premium,
   ctaText = "Get Started",
   delay = 0,
+  onCtaClick,
 }: PricingCardProps) => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
@@ -163,7 +165,7 @@ export const PricingCard = ({
           </p>
 
           {/* CTA */}
-          <LiquidButton variant={popular ? "primary" : "ghost"} className="w-full justify-center">
+          <LiquidButton variant={popular ? "primary" : "ghost"} className="w-full justify-center" onClick={onCtaClick}>
             {ctaText}
           </LiquidButton>
         </div>

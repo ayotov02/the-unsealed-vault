@@ -6,19 +6,22 @@ import { PricingFAQ } from "@/components/PricingFAQ";
 import { FloatingStatOrb } from "@/components/FloatingStatOrb";
 import { LiquidButton } from "@/components/LiquidButton";
 import { AgeGateModal } from "@/components/AgeGateModal";
+import { WaitlistCounter } from "@/components/WaitlistCounter";
+import { useWaitlist } from "@/hooks/use-waitlist";
 import { Lock, Building2 } from "lucide-react";
 
 const observerFeatures = [
-  { text: "Limited daily queries (10/day)", included: true },
+  { text: "200 credits/month", included: true, highlight: true },
+  { text: "EpsteinGPT Chat (5 credits/query)", included: true },
   { text: "Basic Debunk Tool (text & links only)", included: true },
   { text: "Read-only Feed access", included: true },
-  { text: "No voting or leaderboards", included: false },
   { text: "Watermarked responses", included: true },
   { text: "Image/video analysis", included: false },
   { text: "Export PDFs", included: false },
 ];
 
 const investigatorFeatures = [
+  { text: "750 credits/month", included: true, highlight: true },
   { text: "Unlimited EpsteinGPT Chat & queries", included: true, highlight: true },
   { text: "Full Debunk Tool (images, video, audio)", included: true, highlight: true },
   { text: "Infinite Feed scroll + thread creation", included: true },
@@ -29,6 +32,7 @@ const investigatorFeatures = [
 ];
 
 const archivistFeatures = [
+  { text: "2,500 credits/month", included: true, highlight: true },
   { text: "Everything in Investigator", included: true, highlight: true },
   { text: "Advanced analytics: entity graphs", included: true, highlight: true },
   { text: "Timeline builder tool", included: true, highlight: true },
@@ -42,16 +46,17 @@ const Pricing = () => {
   const [ageConfirmed, setAgeConfirmed] = useState(
     localStorage.getItem("epsteingpt-age-confirmed") === "true"
   );
+  const { openWaitlist } = useWaitlist();
 
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      
+
       {!ageConfirmed && <AgeGateModal onConfirm={() => setAgeConfirmed(true)} />}
 
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 overflow-hidden">
-        
+
         {/* Background layers */}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/30 to-background pointer-events-none z-[1]" />
         <div className="god-rays z-[1]" />
@@ -113,14 +118,14 @@ const Pricing = () => {
             </p>
 
             <p className="font-mono text-sm text-muted-foreground/70 mb-10 fade-in-up" style={{ animationDelay: "0.3s" }}>
-              Debunk, chat, and rank the horrors today.
+              First 500 signups get 30% off forever. Join the waitlist now.
             </p>
 
             {/* Floating taglines */}
             <div className="flex flex-wrap justify-center gap-4 fade-in-up" style={{ animationDelay: "0.4s" }}>
               {[
                 "Because some truths cost more than others",
-                "Free tier: dip your toe in the void",
+                "Credits let you go as deep as you dare",
                 "Pro: drown in citations",
               ].map((tagline, index) => (
                 <div key={index} className="glass-card px-4 py-2 rounded-full">
@@ -136,38 +141,37 @@ const Pricing = () => {
           <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-8">
             <PricingCard
               title="Observer"
-              price="$0"
-              period="forever"
-              badge="Start Here — No Card Needed"
+              price="$49.99"
+              period="month"
+              badge="200 Credits/Month"
               features={observerFeatures}
               tagline="Peek through the keyhole. Good for skeptics who still trust their gut more than files."
-              ctaText="Start Free"
+              ctaText="Join Waitlist"
+              onCtaClick={() => openWaitlist("observer")}
               delay={0.1}
             />
             <PricingCard
               title="Investigator"
-              price="$9"
+              price="$99.99"
               period="month"
-              yearlyPrice="$89"
-              yearlySavings="Save 17%"
-              badge="Unlock the Full Vault"
+              badge="750 Credits/Month — Best Value"
               features={investigatorFeatures}
               tagline="See what they tried to bury. Perfect for journalists, researchers, and late-night obsessives."
               popular
-              ctaText="Go Pro"
+              ctaText="Join Waitlist"
+              onCtaClick={() => openWaitlist("investigator")}
               delay={0.2}
             />
             <PricingCard
               title="Archivist"
-              price="$29"
+              price="$199.99"
               period="month"
-              yearlyPrice="$249"
-              yearlySavings="Save 28%"
-              badge="For the Relentless"
+              badge="2,500 Credits/Month"
               features={archivistFeatures}
               tagline="Build your own case file. Because one lifetime isn't enough to read 3.5 million pages."
               premium
-              ctaText="Become Archivist"
+              ctaText="Join Waitlist"
+              onCtaClick={() => openWaitlist("archivist")}
               delay={0.3}
             />
           </div>
@@ -189,6 +193,65 @@ const Pricing = () => {
               <LiquidButton variant="ghost" className="flex-shrink-0">
                 Contact Us
               </LiquidButton>
+            </div>
+          </div>
+
+          {/* Credit Packs */}
+          <div className="max-w-4xl mx-auto mb-20">
+            <h2 className="font-display text-3xl font-bold text-center text-foreground mb-4 fade-in-up">
+              Need More Credits?
+            </h2>
+            <p className="font-serif text-lg text-muted-foreground text-center mb-10 fade-in-up" style={{ animationDelay: "0.1s" }}>
+              Top up anytime with credit packs. Valid for 90 days.
+            </p>
+            <div className="grid md:grid-cols-3 gap-6 fade-in-up" style={{ animationDelay: "0.2s" }}>
+              {[
+                { name: "250 Credits", price: "$24.99", perCredit: "$0.10" },
+                { name: "1,000 Credits", price: "$79.99", perCredit: "$0.08", best: true },
+                { name: "3,000 Credits", price: "$199.99", perCredit: "$0.067" },
+              ].map((pack) => (
+                <div key={pack.name} className={`glass-card p-6 text-center ${pack.best ? "border-primary/30" : ""}`}>
+                  <div className="font-display text-2xl font-bold text-foreground mb-1">{pack.name}</div>
+                  <div className="font-display text-3xl font-bold text-gradient-crimson mb-2">{pack.price}</div>
+                  <div className="font-mono text-xs text-muted-foreground">{pack.perCredit}/credit</div>
+                  {pack.best && (
+                    <div className="mt-2 inline-flex items-center glass-card px-3 py-1 rounded-full border-primary/30">
+                      <span className="font-mono text-[10px] text-primary uppercase tracking-wider">Best Value</span>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Credit Costs Table */}
+          <div className="max-w-2xl mx-auto mb-20">
+            <h2 className="font-display text-3xl font-bold text-center text-foreground mb-10 fade-in-up">
+              Credit Costs Per Action
+            </h2>
+            <div className="glass-panel rounded-2xl overflow-hidden fade-in-up" style={{ animationDelay: "0.1s" }}>
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b border-glass-border">
+                    <th className="text-left font-display text-base font-medium text-foreground p-4 pl-6">Action</th>
+                    <th className="text-right font-display text-base font-medium text-primary p-4 pr-6">Credits</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    { action: "EpsteinGPT Chat", credits: 5 },
+                    { action: "Debunk Tool (text)", credits: 10 },
+                    { action: "Image Analysis", credits: 15 },
+                    { action: "Video Analysis", credits: 25 },
+                    { action: "PDF Export", credits: 3 },
+                  ].map((row, i) => (
+                    <tr key={row.action} className={`border-b border-glass-border/50 ${i % 2 === 0 ? "bg-transparent" : "bg-glass/30"}`}>
+                      <td className="p-4 pl-6 font-mono text-sm text-muted-foreground">{row.action}</td>
+                      <td className="p-4 pr-6 text-right font-mono text-sm text-foreground">{row.credits}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
 
@@ -214,17 +277,20 @@ const Pricing = () => {
               Ready to Access the Truth?
             </h3>
             <p className="font-serif text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Start with Observer tier — no credit card required. Upgrade anytime when you're ready to dive deeper.
+              Join the waitlist today. First 500 get 30% off forever.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <LiquidButton variant="primary">
-                Start Free (Observer Tier) — No Credit Card Required
+              <LiquidButton variant="primary" onClick={() => openWaitlist()}>
+                Join the Waitlist
               </LiquidButton>
-              <LiquidButton variant="ghost">
-                Upgrade to Pro & Own the Truth
+              <LiquidButton variant="ghost" onClick={() => openWaitlist("investigator")}>
+                Go Investigator — Own the Truth
               </LiquidButton>
             </div>
-            <p className="font-mono text-[10px] text-muted-foreground/50 mt-6">
+            <div className="mt-6">
+              <WaitlistCounter />
+            </div>
+            <p className="font-mono text-[10px] text-muted-foreground/50 mt-4">
               "Access granted... but at what cost?"
             </p>
           </div>

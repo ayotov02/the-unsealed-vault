@@ -10,8 +10,9 @@ interface ComparisonFeature {
 }
 
 const features: ComparisonFeature[] = [
-  { name: "Daily Queries", observer: "10/day", investigator: "Unlimited", archivist: "Unlimited" },
-  { name: "EpsteinGPT Chat", observer: "partial", investigator: true, archivist: true },
+  { name: "Monthly Credits", observer: "200", investigator: "750", archivist: "2,500" },
+  { name: "Credit Top-ups", observer: true, investigator: true, archivist: true },
+  { name: "EpsteinGPT Chat", observer: true, investigator: true, archivist: true },
   { name: "Debunk Tool (Text)", observer: true, investigator: true, archivist: true },
   { name: "Debunk Tool (Images)", observer: false, investigator: true, archivist: true },
   { name: "Debunk Tool (Video/Audio)", observer: false, investigator: true, archivist: true },
@@ -64,15 +65,15 @@ export const ComparisonTable = () => {
               </th>
               <th className="text-center font-display text-base font-medium text-muted-foreground p-6 min-w-[140px]">
                 Observer
-                <div className="font-mono text-xs text-muted-foreground/60 mt-1">Free</div>
+                <div className="font-mono text-xs text-muted-foreground/60 mt-1">$49.99/mo</div>
               </th>
               <th className="text-center font-display text-base font-medium text-primary p-6 min-w-[140px] bg-primary/5">
                 Investigator
-                <div className="font-mono text-xs text-primary/70 mt-1">$9/mo</div>
+                <div className="font-mono text-xs text-primary/70 mt-1">$99.99/mo</div>
               </th>
               <th className="text-center font-display text-base font-medium text-foreground p-6 min-w-[140px]">
                 Archivist
-                <div className="font-mono text-xs text-muted-foreground/60 mt-1">$29/mo</div>
+                <div className="font-mono text-xs text-muted-foreground/60 mt-1">$199.99/mo</div>
               </th>
             </tr>
           </thead>

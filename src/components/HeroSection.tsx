@@ -2,6 +2,8 @@ import { TaglineRotator } from "./TaglineRotator";
 import { FeatureCard } from "./FeatureCard";
 import { LiquidButton } from "./LiquidButton";
 import { GridScan } from "./GridScan";
+import { WaitlistCounter } from "./WaitlistCounter";
+import { useWaitlist } from "@/hooks/use-waitlist";
 
 const features = [
   {
@@ -47,6 +49,8 @@ const features = [
 ];
 
 export const HeroSection = () => {
+  const { openWaitlist } = useWaitlist();
+
   return (
     <section className="relative min-h-screen pt-32 pb-20 overflow-hidden">
       {/* Background layers */}
@@ -117,12 +121,17 @@ export const HeroSection = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 fade-in-up" style={{ animationDelay: "0.5s" }}>
-            <LiquidButton variant="primary">
-              Start Free — Before the Next Drop Changes Everything
+            <LiquidButton variant="primary" onClick={() => openWaitlist()}>
+              Join the Waitlist — Early Access Pricing Inside
             </LiquidButton>
             <LiquidButton variant="ghost">
               Watch Demo (It's basically ASMR for transparency addicts)
             </LiquidButton>
+          </div>
+
+          {/* Waitlist Counter */}
+          <div className="mt-8 fade-in-up" style={{ animationDelay: "0.55s" }}>
+            <WaitlistCounter />
           </div>
         </div>
 
@@ -168,7 +177,7 @@ export const HeroSection = () => {
           <p className="font-serif text-lg text-muted-foreground mb-6 italic">
             "The truth doesn't care about your algorithm."
           </p>
-          <LiquidButton variant="primary">
+          <LiquidButton variant="primary" onClick={() => openWaitlist()}>
             Enter the Vault
           </LiquidButton>
         </div>

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useWaitlist } from "@/hooks/use-waitlist";
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -12,6 +13,7 @@ const navItems = [
 
 export const Navigation = () => {
   const [isHovered, setIsHovered] = useState<number | null>(null);
+  const { openWaitlist } = useWaitlist();
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50">
@@ -54,8 +56,8 @@ export const Navigation = () => {
             </div>
 
             {/* CTA */}
-            <button className="btn-ghost text-sm hidden md:block">
-              Access the Vault
+            <button className="btn-ghost text-sm hidden md:block" onClick={() => openWaitlist()}>
+              Join Waitlist
             </button>
 
             {/* Mobile Menu */}
